@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <link href="weathr.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="card">
+                <input type="text" placeholder="city name" id="city">
+                <button  class="button" onclick="checkweather()"><img src="search.png" id="img"></button>
+                <div class="weather">
+              <img src="clouds.png" class="weather-icon"><br>
+              <h1 class="temp">26°C</h1>
+              <h2 class="city">city</h2>
+              <img src="humidity.png" id="humidity">
+              <p id="s1" class="humidity1">65%</p> <br>
+                <p id="s2">Humidity</p>
+              <img src="wind.png" id="wind">
+              <p class="wind">15km/h</p><br>
+              <p>Wind speed<p>
+              </div>
+        </div>
+        <script>
+            const search=document.getElementById("city");
+           
+            const searchbtn =document.querySelector(".button");
+            const weather=document.querySelector(".weather-icon");
+            
+            async function checkweather()
+            { 
+             
+              const cityname =search.value;
+              const  url='https://api.openweathermap.org/data/2.5/weather?units=metric&q='+cityname+'&appid=7097defe502b1e76eca4443771bb373b';
+              const response =await fetch(url);
+              var data = await response.json();
+              console.log(data);
+              document.querySelector("h2").innerText =data.name;
+              document.querySelector(" h1").innerText =Math.floor(data.main.temp)+"°C"; 
+               document.querySelector(".humidity1").innerText =data.main.humidity+'%'; 
+              document.querySelector(".wind").innerText =data.wind.speed+"km/h"; 
+               if(data.weather[0]=="Clouds")
+               {
+                weather.src="clouds.png";
+               }             
+           else if(data.weather[0]== "Clear")
+              {
+                weather.src="clear.png";
+              }
+            else if(data.weather[0]== "Mist")
+              {
+                weather.src="mist.png";
+              }
+           else if(data.weather[0]== "Rain")
+              {
+                weather.src="rain.png";
+              }
+             else if(data.weather[0]== "Drizzle")
+              {
+                weather.src="drizzle.png";
+              }
+              document.querySelector(".weather").style.display="block";
+              document.querySelector(".card").style. height="550px";
+            }
+          checkweather();
+            </script>
+    </body>
+</html>
